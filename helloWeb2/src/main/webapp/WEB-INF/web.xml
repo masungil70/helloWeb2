@@ -34,6 +34,16 @@
 	</servlet-mapping>	
 
 
+	<servlet>
+		<servlet-name>boardsServlet</servlet-name>
+		<servlet-class>com.msa2024.board.BoardsServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>boardsServlet</servlet-name>
+		<url-pattern>/boards</url-pattern>
+	</servlet-mapping>	
+
 </web-app>
 
 
