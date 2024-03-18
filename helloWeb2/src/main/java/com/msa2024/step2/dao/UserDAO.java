@@ -16,6 +16,7 @@ public class UserDAO {
     // 6. 등록 구현
     private static Connection conn = null;
     private static PreparedStatement userListPstmt = null;
+    private static PreparedStatement userListPstmt2 = null;
     private static PreparedStatement userInsertPstmt = null;
     private static PreparedStatement userDeletePstmt = null;
     private static PreparedStatement userDetailPstmt = null;
@@ -43,6 +44,7 @@ public class UserDAO {
             conn.setAutoCommit(false);
 
             userListPstmt = conn.prepareStatement("select * from users");
+            userListPstmt2 = conn.prepareStatement("select * from users where username like ?");
             userInsertPstmt = conn.prepareStatement("insert into users (userid, username, userpassword, userage, useremail) values (?, ?, ?, ?,?)");
             userDetailPstmt = conn.prepareStatement("select * from users where userid=?");
             userValidationIdPstmt = conn.prepareStatement("select userid from users where userid=?  ");
@@ -61,10 +63,17 @@ public class UserDAO {
         }
     }
 
-    public List<UserVO> list() {
+    public List<UserVO> list(UserVO user) {
         List<UserVO> list = new ArrayList<>();
         try {
-            ResultSet rs = UserDAO.userListPstmt.executeQuery();
+        	ResultSet rs = null;
+        	if (user != null && !user.isEmptySearchKey()) {
+        		//검색 키워드 설정 
+        		userListPstmt2.setString(1, user.getSearchKey());
+        		rs = userListPstmt2.executeQuery();
+        	} else {
+                rs = userListPstmt.executeQuery();
+        	}
             while (rs.next()) {
                 UserVO users = new UserVO(rs.getString("userid")
                         , rs.getString("userpassword")

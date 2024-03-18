@@ -17,13 +17,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msa2024.step2.dao.UserDAO;
 import com.msa2024.step2.vo.UserVO;
 
+/*
+ * MVC 
+ * Model : B/L 로직을 구현하는 부분(service + dao)  
+ * View  : 출력(jsp) 
+ * Controller : model와 view에 대한 제어를 담당 
+ */
 /**
  * Servlet implementation class UsersServlet
  */
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
-	UserDAO usersDAO = new UserDAO();
+	UserController userController = new UserController(); 
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -71,16 +77,15 @@ public class UserServlet extends HttpServlet {
 		UserVO userVO = objectMapper.convertValue(convertMap(request.getParameterMap()), UserVO.class);
 		System.out.println("userVO " + userVO);
 		
-		
 		String action = request.getParameter("action");
 		switch(action) {
-		case "list" -> list(request, userVO);
-		case "view" -> view(request, userVO);
-		case "delete" -> delete(request, userVO);
-		case "updateForm" -> updateForm(request, userVO);
-		case "update" -> update(request, userVO);
-		case "insertForm" -> insertForm(request);
-		case "insert" -> insert(request, userVO);
+		case "list" -> userController.list(request, userVO);
+		case "view" -> userController.view(request, userVO);
+		case "delete" -> userController.delete(request, userVO);
+		case "updateForm" -> userController.updateForm(request, userVO);
+		case "update" -> userController.update(request, userVO);
+		case "insertForm" -> userController.insertForm(request);
+		case "insert" -> userController.insert(request, userVO);
 		}
 		
 		//3. jsp 포워딩 
@@ -90,71 +95,6 @@ public class UserServlet extends HttpServlet {
 		
 	}
 
-	private void list(HttpServletRequest request, UserVO user) throws ServletException, IOException {
-		System.out.println("목록");
-		
-		//1. 처리
-		List<UserVO> list = usersDAO.list();
-		
-		//2. jsp출력할 값 설정
-		request.setAttribute("list", list);
-		
-	}
-	
-	private void view(HttpServletRequest request, UserVO user) throws ServletException, IOException {
-		System.out.println("상세보기");
-		//String userid = request.getParameter("userid");
-		//1. 처리
-		
-		//2. jsp출력할 값 설정
-		request.setAttribute("user", usersDAO.read(user));
-	}
-	
-	private void delete(HttpServletRequest request, UserVO user) throws ServletException, IOException {
-		System.out.println("삭제");
-		//1. 처리
-		int updated = usersDAO.delete(user);
-		
-		//2. jsp출력할 값 설정
-		request.setAttribute("updated", updated);
-	}
-	
-	private void updateForm(HttpServletRequest request, UserVO user) throws ServletException, IOException {
-		System.out.println("수정화면");
-		//1. 처리
-		//usersDAO.read(user);
-		
-		//2. jsp출력할 값 설정
-		request.setAttribute("user", usersDAO.read(user));
-	}
-	
-	private void update(HttpServletRequest request, UserVO user) throws ServletException, IOException {
-		System.out.println("수정");
-		
-		//1. 처리
-		int updated = usersDAO.update(user);
-		
-		//2. jsp출력할 값 설정
-		request.setAttribute("updated", updated);
-	}
-	
-	private void insertForm(HttpServletRequest request) throws ServletException, IOException {
-		System.out.println("등록화면");
-		//1. 처리
-		
-		//2. jsp출력할 값 설정
-	}
-	
-	private void insert(HttpServletRequest request, UserVO user) throws ServletException, IOException {
-		System.out.println("등록");
-		
-		//1. 처리
-		int updated = usersDAO.insert(user);
-		
-		//2. jsp출력할 값 설정
-		request.setAttribute("updated", updated);
-	}
-	
 }
 
 

@@ -18,6 +18,9 @@ public class UserVO {
 	//실행 명령 필드 
 	private String action;
 
+	//검색키
+	private String searchKey;
+	
 	public UserVO(String userid, String userpassword, String username, int userage, String useremail) {
 		super();
 		this.userid = userid;
@@ -27,5 +30,8 @@ public class UserVO {
 		this.useremail = useremail;
 	}
 	
+	public boolean isEmptySearchKey() {
+		return searchKey == null || searchKey.length() == 0; 
+	}
 	
 }
