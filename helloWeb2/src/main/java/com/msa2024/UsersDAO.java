@@ -65,8 +65,8 @@ public class UsersDAO {
             ResultSet rs = UsersDAO.userListPstmt.executeQuery();
             while (rs.next()) {
                 Users users = new Users(rs.getString("userid")
-                        , rs.getString("username")
                         , rs.getString("userpassword")
+                        , rs.getString("username")
                         , rs.getInt("userage")
                         , rs.getString("useremail"));
                 

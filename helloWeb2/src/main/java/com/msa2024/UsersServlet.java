@@ -52,6 +52,7 @@ public class UsersServlet extends HttpServlet {
 		case "updateForm" -> updateForm(request, response);
 		case "update" -> update(request, response);
 		case "insertForm" -> insertForm(request, response);
+		case "insert" -> insert(request, response);
 		}
 		
 		//3. jsp 포워딩 
@@ -124,6 +125,23 @@ public class UsersServlet extends HttpServlet {
 		//1. 처리
 		
 		//2. jsp출력할 값 설정
+	}
+	
+	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("등록");
+		String userid = request.getParameter("userid");
+		String userpassword = request.getParameter("userpassword");
+		String username = request.getParameter("username");
+		String userage = request.getParameter("userage");
+		String useremail = request.getParameter("useremail");
+		
+		Users user = new Users(userid, userpassword, username, Integer.parseInt(userage) , useremail);
+		
+		//1. 처리
+		int updated = usersDAO.insert(user);
+		
+		//2. jsp출력할 값 설정
+		request.setAttribute("updated", updated);
 	}
 		
 }
