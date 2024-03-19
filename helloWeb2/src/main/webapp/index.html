@@ -135,9 +135,13 @@ b4.onclick = function() {
 }
 //json 문자열로 서버에 전송하고 json으로 수신을 받는다
 b5.onclick = function() {
+	//json 객체 
+	const param = {name:"hong", age:10};
+	
    fetch("fetch", {
        method: "POST",
-       body: '{"name":"hong", "age":10}',
+//       body: '{"name":"hong", "age":10}',
+       body: JSON.stringify(param),
        headers: {
            "Content-type": "application/json; charset=UTF-8;"
        }
@@ -146,6 +150,49 @@ b5.onclick = function() {
       console.log("name", json.name);      
    });
 }
+
+b6.onclick = async function() {
+   fetch("fetch?name=json").then(res => res.json()).then(json => {
+      console.log("json = ", json);      
+      console.log("result = ", json.result);      
+      console.log("name = ", json.name);      
+      console.log("age = ", json.age);      
+      console.log("age + 5 = ", json.age + 5);      
+   });
+
+	   
+	let response = await fetch("fetch?name=json");
+	if (response.ok) {
+		let json = await response.json();
+	    console.log("json = ", json);      
+	    console.log("result = ", json.result);      
+	    console.log("name = ", json.name);      
+	    console.log("age = ", json.age);      
+	    console.log("age + 5 = ", json.age + 5);      
+	} else {
+		console.log("error = ", response.status);
+	}
+} 
+
+//json 문자열로 서버에 전송하고 json으로 수신을 받는다
+b7.onclick = async function() {
+	//json 객체 
+	const param = {name:"hong", age:10};
+	
+   let response = await fetch("fetch", {
+       method: "POST",
+       body: JSON.stringify(param),
+       headers: {
+           "Content-type": "application/json; charset=UTF-8;"
+       }
+   });
+   if (response.ok) {
+	   let json = await response.json();
+       console.log("result", json.result);      
+       console.log("name", json.name);      
+   }
+}
+
 
 const jsonText = '{"name":"hong", "age":10}';
 const jsonObj = JSON.parse(jsonText);//문자열을 json 객체로 변환 
