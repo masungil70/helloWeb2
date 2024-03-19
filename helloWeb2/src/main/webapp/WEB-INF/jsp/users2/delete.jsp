@@ -25,9 +25,9 @@
 	<c:if test="${updated != 0}">
 		삭제되었습니다 
 	</c:if>   
-	<a href="users?action=list">목록</a>
+	<a href="user.do?action=list">목록</a>
 
-	<form action="users" method="post">
+	<form action="user.do" method="post">
 		<input type="hidden" name="action" value="list">
 		<input type="submit" value="목록">
 	</form>     

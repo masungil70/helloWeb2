@@ -20,7 +20,7 @@
     <h1>
         회원정보 수정양식 
     </h1>
-    <form action="users" method="post">
+    <form action="user.do" method="post">
     	<input type="hidden" name="action" value="update">
         <label>아이디 : </label> <input type="text" id="userid" name="userid" value="${user.userid}" readonly="readonly"> <br/>
         <label>비밀번호 : </label>   <input type="password" id="userpassword" name="userpassword" required="required"><br/>
@@ -30,7 +30,7 @@
         <label>이메일: </label>  <input type="text" id="useremail" name="useremail" value="${user.useremail}"><br/>
     <div>
         <input type="submit" value="수정">
-        <a href="users?action=view&userid=${user.userid}">취소</a>
+        <a href="user.do?action=view&userid=${user.userid}">취소</a>
     </div>
     
     </form>

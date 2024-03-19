@@ -26,14 +26,14 @@
 		수정되었습니다 
 	</c:if>
 	<div>	   
-		<a href="users?action=list">목록</a>
-		<a href="users?action=view&userid=${param.userid}">상세보기</a>
+		<a href="user.do?action=list">목록</a>
+		<a href="user.do?action=view&userid=${param.userid}">상세보기</a>
 	
-		<form action="users" method="post">
+		<form action="user.do" method="post">
 			<input type="hidden" name="action" value="list">
 			<input type="submit" value="목록">
 		</form>     
-		<form action="users" method="post">
+		<form action="user.do" method="post">
 			<input type="hidden" name="action" value="view">
 			<input type="submit" value="상세보기">
 		</form>     

@@ -50,29 +50,29 @@ function jsUpdateForm() {
 }
 </script>
 <!-- 두개의 폼을 하나로 합치는 방법 , js를 사용하여 처리  -->
-	<form id="viewForm" method="post" action="users">
+	<form id="viewForm" method="post" action="user.do">
 		<input type="hidden" id="action" name="action" value="">
 		<input type="hidden" name="userid" value="${user.userid}">
 		<input type="button" value="삭제" onclick="jsDelete()">
 		<input type="button" value="수정" onclick="jsUpdateForm()">
 	</form>     
  
-	<form action="users" method="post">
+	<form action="user.do" method="post">
 		<input type="hidden" name="action" value="delete">
 		<input type="hidden" name="userid" value="${user.userid}">
 		<input type="submit" value="삭제">
 	</form>     
 	
-	<form action="users" method="post">
+	<form action="user.do" method="post">
 		<input type="hidden" name="action" value="updateForm">
 		<input type="hidden" name="userid" value="${user.userid}">
 		<input type="submit" value="수정">
 	</form>     
 	
     <div>
-        <a href="users?action=list">목록</a>
-        <a href="users?action=updateForm&userid=${user.userid}">수정</a>
-        <a href="users?action=delete&userid=${user.userid}">삭제</a>
+        <a href="user.do?action=list">목록</a>
+        <a href="user.do?action=updateForm&userid=${user.userid}">수정</a>
+        <a href="user.do?action=delete&userid=${user.userid}">삭제</a>
     </div>
 </body>
 </html>

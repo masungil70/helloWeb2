@@ -95,11 +95,11 @@ public class UserDAO {
         }
         return updated;
     }
-    public UserVO read(String userid) {
+    public UserVO read(UserVO user) {
 
         UserVO users = null;
         try {
-            userDetailPstmt.setString(1, userid);
+            userDetailPstmt.setString(1, user.getUserid());
 
             ResultSet rs = userDetailPstmt.executeQuery();
             if (rs.next()) {
@@ -134,11 +134,11 @@ public class UserDAO {
 
     }
 
-    public int delete(String userid) {
+    public int delete(UserVO user) {
         int updated = 0;
 
         try {
-            userDeletePstmt.setString(1, userid);
+            userDeletePstmt.setString(1, user.getUserid());
             updated = userDeletePstmt.executeUpdate();
             conn.commit();
         } catch (Exception e) {

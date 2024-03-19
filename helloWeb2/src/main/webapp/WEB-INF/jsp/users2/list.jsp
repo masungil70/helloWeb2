@@ -43,7 +43,7 @@
     	<input type="submit" value="검색">
     </form>
     
-    <form id="listForm" action="users" method="post">
+    <form id="listForm" action="user.do" method="post">
     	<input type="hidden" id="action" name="action" value="view">
     	<input type="hidden" id="userid" name="userid" >
     </form>
@@ -69,7 +69,7 @@
         <c:forEach var="user" items="${list}">
         <tr>
             <td onclick="jsView('${user.userid}')"  style="cursor:pointer;">${user.userid}</td>
-            <td><a href="users?action=view&userid=${user.userid}">${user.username}</a></td>
+            <td><a href="user.do?action=view&userid=${user.userid}">${user.username}</a></td>
             <td>${user.userage}</td>
             <td>${user.useremail}</td>
         </tr>
@@ -86,7 +86,7 @@ function jsView(uid) {
 }
 </script>      
     <div class="button-container">
-        <a href="users?action=insertForm">등록</a>
+        <a href="user.do?action=insertForm">등록</a>
     </div>
 </body>
 </html>
