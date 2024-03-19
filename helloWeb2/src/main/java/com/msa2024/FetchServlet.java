@@ -43,8 +43,25 @@ public class FetchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//브라우저에서 전달한 값 얻기 
+		String type = request.getParameter("type");
+		String name = request.getParameter("name");
+		String age = request.getParameter("age");
+
+		//브라우저에서 전달한 값 출력 
+		System.out.println("type = " + type);
+		System.out.println("name = " + name);
+		System.out.println("age = " + age);
+		
+		//응답 데이터 텍스트로 전달 
+		response.getWriter().append("1");
 	}
 
 }
+
+
+
+
+
+
+

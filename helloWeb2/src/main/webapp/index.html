@@ -109,6 +109,18 @@ b2.onclick = function() {
    });
 }
 
+b3.onclick = function() {
+   fetch("fetch", {
+       method: "POST",
+       body: "type=text&name=hong&age=10",
+       headers: {
+           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8;"
+       }
+   }).then(res => res.text()).then(text => {
+      console.log("text", text);      
+   });
+}
+
 </script>
 <script type="text/javascript">
 const time_button = document.getElementById("time_button");
