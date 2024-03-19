@@ -45,7 +45,7 @@ public class BoardsServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		String action = request.getParameter("action");
-		switch(action) {
+		String jspPage = switch(action) {
 		case "list" -> list(request, response);
 		case "view" -> view(request, response);
 		case "delete" -> delete(request, response);
@@ -53,16 +53,23 @@ public class BoardsServlet extends HttpServlet {
 		case "update" -> update(request, response);
 		case "insertForm" -> insertForm(request, response);
 		case "insert" -> insert(request, response);
-		}
+		default -> "";
+		};
 		
-		//3. jsp 포워딩 
-		//포워딩 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/boards/"+action+".jsp");
-		rd.forward(request, response);
+		if (jspPage.startsWith("redirect:")) {
+			//리다이렉드 
+			response.sendRedirect(jspPage.substring("redirect:".length()));	
+		} else {
+			//3. jsp 포워딩 
+			//포워딩 
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/boards/"+ jspPage +".jsp");
+			rd.forward(request, response);
+		
+		}
 		
 	}
 
-	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private String list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("목록");
 		String searchKey = request.getParameter("searchKey");
 		//1. 처리
@@ -71,9 +78,10 @@ public class BoardsServlet extends HttpServlet {
 		//2. jsp출력할 값 설정
 		request.setAttribute("list", list);
 		
+		return "list";
 	}
 	
-	private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private String view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("상세보기");
 		String bno = request.getParameter("bno");
 		//1. 처리
@@ -81,9 +89,11 @@ public class BoardsServlet extends HttpServlet {
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("board", board);
+		
+		return "view";
 	}
 	
-	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private String delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("삭제");
 		String bno = request.getParameter("bno");
 		//1. 처리
@@ -91,9 +101,11 @@ public class BoardsServlet extends HttpServlet {
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
+		
+		return "delete";
 	}
 	
-	private void updateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private String updateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("수정화면");
 		String bno = request.getParameter("bno");
 		//1. 처리
@@ -101,9 +113,11 @@ public class BoardsServlet extends HttpServlet {
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("board", board);
+		
+		return "updateForm";
 	}
 	
-	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private String update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("수정");
 		String bno = request.getParameter("bno");
 		String btitle = request.getParameter("btitle");
@@ -116,16 +130,20 @@ public class BoardsServlet extends HttpServlet {
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
+		
+		return "update";
 	}
 	
-	private void insertForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private String insertForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("등록화면");
 		//1. 처리
 		
 		//2. jsp출력할 값 설정
+		
+		return "insertForm";
 	}
 	
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private String insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("등록");
 		String btitle = request.getParameter("btitle");
 		String bcontent = request.getParameter("bcontent");
@@ -138,6 +156,9 @@ public class BoardsServlet extends HttpServlet {
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
+		
+		return "redirect:boards?action=list";
+		
 	}
 		
 }

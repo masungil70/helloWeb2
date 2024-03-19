@@ -20,7 +20,7 @@
     <h1>
         게시물 등록양식 
     </h1>
-    <form action="boards" method="post">
+    <form action="boards" method="get">
     	<input type="hidden" name="action" value="insert">
         <label>제목 : </label><input type="text" id="btitle" name="btitle" ><br/>
         <label>내용 : </label><input type="text" id="bcontent" name="bcontent" ><br/>
