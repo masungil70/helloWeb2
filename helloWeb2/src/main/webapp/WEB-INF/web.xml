@@ -24,13 +24,13 @@
 	</servlet-mapping>	
 	
 	<servlet>
-		<servlet-name>users</servlet-name>
-		<servlet-class>com.msa2024.UsersServlet</servlet-class>
+		<servlet-name>userServlet</servlet-name>
+		<servlet-class>com.msa2024.step2.UserServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>users</servlet-name>
-		<url-pattern>/users</url-pattern>
+		<servlet-name>userServlet</servlet-name>
+		<url-pattern>/user.do</url-pattern>
 	</servlet-mapping>	
 
 
