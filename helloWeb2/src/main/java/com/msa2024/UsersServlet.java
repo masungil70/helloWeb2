@@ -45,6 +45,7 @@ public class UsersServlet extends HttpServlet {
 		switch(action) {
 		case "list" -> list(request, response);
 		case "view" -> view(request, response);
+		case "delete" -> delete(request, response);
 		}
 		
 		//3. jsp 포워딩 
@@ -63,11 +64,6 @@ public class UsersServlet extends HttpServlet {
 		//2. jsp출력할 값 설정
 		request.setAttribute("list", list);
 		
-		//3. jsp 포워딩 
-		//포워딩 
-//		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users/list.jsp");
-//		rd.forward(request, response);
-		
 	}
 	
 	private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -78,12 +74,16 @@ public class UsersServlet extends HttpServlet {
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("user", user);
+	}
+	
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("삭제");
+		String userid = request.getParameter("userid");
+		//1. 처리
+		int updated = usersDAO.delete(userid);
 		
-		//3. jsp 포워딩 
-		//포워딩 
-//		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users/list.jsp");
-//		rd.forward(request, response);
-		
+		//2. jsp출력할 값 설정
+		request.setAttribute("updated", updated);
 	}
 }
 
