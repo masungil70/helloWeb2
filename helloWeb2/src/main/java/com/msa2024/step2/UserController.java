@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -99,14 +100,25 @@ public class UserController {
 	
 	public String insert(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("등록");
+		Map<String, Object> map = new HashMap<>();
 		
-		//1. 처리
-		int updated = userService.insert(user);
+		if (user.getUserid() == null  || user.getUserid().length() == 0) {
+			map.put("status", -1);
+			map.put("statusMessage", "사용자 아이디는 null 이거나 길이가 0인 문자열을 사용할 수 없습니다");
+		} else {
+			//1. 처리
+			int updated = userService.insert(user);
+			
+			if (updated == 1) { //성공
+				map.put("status", 0);
+			} else {
+				map.put("status", -99);
+				map.put("statusMessage", "회원 가입이 실패하였습니다");
+			}
+		}
 		
-		//2. jsp출력할 값 설정
-		request.setAttribute("updated", updated);
-		
-		return "redirect:user.do?action=list";
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(map);
 	}
 
 	public String existUserId(HttpServletRequest request, UserVO userVO) throws ServletException, IOException {
