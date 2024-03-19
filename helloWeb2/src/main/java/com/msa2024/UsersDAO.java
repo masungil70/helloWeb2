@@ -102,8 +102,8 @@ public class UsersDAO {
             ResultSet rs = userDetailPstmt.executeQuery();
             if (rs.next()) {
                 users = new Users(rs.getString("userid")
-                        , rs.getString("username")
                         , rs.getString("userpassword")
+                        , rs.getString("username")
                         , rs.getInt("userage")
                         , rs.getString("useremail"));
             }

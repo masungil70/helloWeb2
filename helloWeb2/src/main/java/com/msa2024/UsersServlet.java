@@ -41,11 +41,16 @@ public class UsersServlet extends HttpServlet {
 	
 	//공통 처리 함수 
 	private void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//한글 설정 
+		request.setCharacterEncoding("utf-8");
+		
 		String action = request.getParameter("action");
 		switch(action) {
 		case "list" -> list(request, response);
 		case "view" -> view(request, response);
 		case "delete" -> delete(request, response);
+		case "updateForm" -> updateForm(request, response);
+		case "update" -> update(request, response);
 		}
 		
 		//3. jsp 포워딩 
@@ -85,6 +90,34 @@ public class UsersServlet extends HttpServlet {
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
 	}
+	
+	private void updateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("수정화면");
+		String userid = request.getParameter("userid");
+		//1. 처리
+		Users user = usersDAO.read(userid);
+		
+		//2. jsp출력할 값 설정
+		request.setAttribute("user", user);
+	}
+	
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("수정");
+		String userid = request.getParameter("userid");
+		String userpassword = request.getParameter("userpassword");
+		String username = request.getParameter("username");
+		String userage = request.getParameter("userage");
+		String useremail = request.getParameter("useremail");
+		
+		Users user = new Users(userid, userpassword, username, Integer.parseInt(userage) , useremail);
+		
+		//1. 처리
+		int updated = usersDAO.update(user);
+		
+		//2. jsp출력할 값 설정
+		request.setAttribute("updated", updated);
+	}
+	
 }
 
 
