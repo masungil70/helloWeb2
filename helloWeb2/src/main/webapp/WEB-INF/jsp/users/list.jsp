@@ -35,17 +35,30 @@
     </style>
 </head>
 <body>
-    <h1>회원목록</h1>
-  
+	<h1>회원목록</h1>
+	  
     <form id="searchForm" action="list.jsp" method="get" >
     	<label>이름 : </label>
     	<input type="text" id="searchKey" name="searchKey" value="${param.searchKey}">
     	<input type="submit" value="검색">
     </form>
     
-    <form id="listForm" action="view.jsp" method="post">
+    <form id="listForm" action="users" method="post">
+    	<input type="hidden" id="action" name="action" value="view">
     	<input type="hidden" id="userid" name="userid" >
     </form>
+<!--     
+    <form id="listForm2" action="users" method="get">
+    	<input type="hidden" id="action" name="action" value="view">
+    	<input type="hidden" id="userid" name="userid" >
+    </form>
+    <form id="listForm3" action="users?action=view" method="get">
+    	<input type="hidden" id="userid" name="userid" >
+    </form>
+    <form id="listForm3" action="users?action=view" method="post">
+    	<input type="hidden" id="userid" name="userid" >
+    </form>
+ -->    
     <table border="1">
         <tr>
             <th>ID</th>
@@ -56,7 +69,7 @@
         <c:forEach var="user" items="${list}">
         <tr>
             <td onclick="jsView('${user.userid}')"  style="cursor:pointer;">${user.userid}</td>
-            <td>${user.username}</td>
+            <td><a href="users?action=view&userid=${user.userid}">${user.username}</a></td>
             <td>${user.userage}</td>
             <td>${user.useremail}</td>
         </tr>
