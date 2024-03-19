@@ -51,6 +51,7 @@ public class UsersServlet extends HttpServlet {
 		case "delete" -> delete(request, response);
 		case "updateForm" -> updateForm(request, response);
 		case "update" -> update(request, response);
+		case "insertForm" -> insertForm(request, response);
 		}
 		
 		//3. jsp 포워딩 
@@ -118,6 +119,13 @@ public class UsersServlet extends HttpServlet {
 		request.setAttribute("updated", updated);
 	}
 	
+	private void insertForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("등록화면");
+		//1. 처리
+		
+		//2. jsp출력할 값 설정
+	}
+		
 }
 
 

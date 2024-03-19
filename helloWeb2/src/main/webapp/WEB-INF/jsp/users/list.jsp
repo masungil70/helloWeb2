@@ -86,7 +86,7 @@ function jsView(uid) {
 }
 </script>      
     <div class="button-container">
-        <a href="insertform.html">등록</a>
+        <a href="users?action=insertForm">등록</a>
     </div>
 </body>
 </html>
