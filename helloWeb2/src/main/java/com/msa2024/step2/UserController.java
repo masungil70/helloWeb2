@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msa2024.UsersServlet;
 import com.msa2024.step2.dao.UserDAO;
@@ -32,7 +33,7 @@ public class UserController {
         // TODO Auto-generated constructor stub
     }
 
-	public void list(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public String list(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("목록");
 		
 		//1. 처리
@@ -41,36 +42,42 @@ public class UserController {
 		//2. jsp출력할 값 설정
 		request.setAttribute("list", list);
 		
+		return "list";
 	}
 	
-	public void view(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public String view(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("상세보기");
 		//String userid = request.getParameter("userid");
 		//1. 처리
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("user", userService.view(user));
+		return "view";
 	}
 	
-	public void delete(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public String delete(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("삭제");
 		//1. 처리
 		int updated = userService.delete(user);
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
+		
+		return "delete";
 	}
 	
-	public void updateForm(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public String updateForm(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("수정화면");
 		//1. 처리
 		//usersDAO.read(user);
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("user", userService.updateForm(user));
+		
+		return "updateForm"; 
 	}
 	
-	public void update(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public String update(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("수정");
 		
 		//1. 처리
@@ -78,16 +85,19 @@ public class UserController {
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
+		
+		return "update";
 	}
 	
-	public void insertForm(HttpServletRequest request) throws ServletException, IOException {
+	public String insertForm(HttpServletRequest request) throws ServletException, IOException {
 		System.out.println("등록화면");
 		//1. 처리
 		
 		//2. jsp출력할 값 설정
+		return "insertForm";
 	}
 	
-	public void insert(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public String insert(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("등록");
 		
 		//1. 처리
@@ -95,6 +105,24 @@ public class UserController {
 		
 		//2. jsp출력할 값 설정
 		request.setAttribute("updated", updated);
+		
+		return "redirect:user.do?action=list";
+	}
+
+	public String existUserId(HttpServletRequest request, UserVO userVO) throws ServletException, IOException {
+		//1. 처리
+		System.out.println("existUserId userid->" + userVO.getUserid());
+		UserVO existUser = userService.view(userVO);
+		Map<String, Object> map = new HashMap<>();
+		System.out.println(existUser);
+		
+		if (existUser == null) { //사용가능한 아이디
+			map.put("existUser", false);
+		} else { //사용 불가능 아아디 
+			map.put("existUser", true);
+		}
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(map);
 	}
 	
 }

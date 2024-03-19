@@ -110,7 +110,7 @@ public class FetchServlet extends HttpServlet {
 //			ObjectMapper objectMapper = new ObjectMapper();
 //			User user = objectMapper.readValue(jsonText, User.class);
 			
-			//자바에서 json 문자열을 객체로 변환하는 방법 
+			//자바에서 stream에 있는 문자열을 객체로 변환하는 방법 
 			ObjectMapper objectMapper = new ObjectMapper();
 			User user = objectMapper.readValue(request.getInputStream(), User.class);
 			

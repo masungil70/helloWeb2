@@ -2,19 +2,15 @@ package com.msa2024.step2;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.msa2024.step2.dao.UserDAO;
 import com.msa2024.step2.vo.UserVO;
 
 /*
@@ -72,13 +68,19 @@ public class UserServlet extends HttpServlet {
 	private void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//한글 설정 
 		request.setCharacterEncoding("utf-8");
+		String contentType = request.getContentType();
 		
 		ObjectMapper objectMapper = new ObjectMapper();
-		UserVO userVO = objectMapper.convertValue(convertMap(request.getParameterMap()), UserVO.class);
+		UserVO userVO = null;
+		if (contentType == null || contentType.startsWith("application/x-www-form-urlencoded")) {
+			userVO = objectMapper.convertValue(convertMap(request.getParameterMap()), UserVO.class);
+		} else if (contentType.startsWith("application/json")) {
+			userVO = objectMapper.readValue(request.getInputStream(), UserVO.class);
+		}
 		System.out.println("userVO " + userVO);
 		
-		String action = request.getParameter("action");
-		switch(action) {
+		String action = userVO.getAction();
+		String result = switch(action) {
 		case "list" -> userController.list(request, userVO);
 		case "view" -> userController.view(request, userVO);
 		case "delete" -> userController.delete(request, userVO);
@@ -86,24 +88,22 @@ public class UserServlet extends HttpServlet {
 		case "update" -> userController.update(request, userVO);
 		case "insertForm" -> userController.insertForm(request);
 		case "insert" -> userController.insert(request, userVO);
+		case "existUserId" -> userController.existUserId(request, userVO);
+		default -> "";
+		};
+		
+		if (result.startsWith("redirect:")) {
+			//리다이렉트 
+			response.sendRedirect(result.substring("redirect:".length()));
+		} else if (result.startsWith("{") || result.startsWith("[")) {
+			//json 문자열을 리턴 
+			response.setContentType("application/json;charset=UTF-8");
+			response.getWriter().append(result);
+		} else {
+			//3. jsp 포워딩 
+			//포워딩 
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users2/"+result+".jsp");
+			rd.forward(request, response);
 		}
-		
-		//3. jsp 포워딩 
-		//포워딩 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users2/"+action+".jsp");
-		rd.forward(request, response);
-		
 	}
-
 }
-
-
-
-
-
-
-
-
-
-
-
