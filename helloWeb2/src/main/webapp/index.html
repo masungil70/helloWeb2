@@ -121,6 +121,41 @@ b3.onclick = function() {
    });
 }
 
+b4.onclick = function() {
+   fetch("fetch", {
+       method: "POST",
+       body: "type=json&name=hong&age=10",
+       headers: {
+           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8;"
+       }
+   }).then(res => res.json()).then(json=> {
+      console.log("result", json.result);      
+      console.log("name", json.name);      
+   });
+}
+//json 문자열로 서버에 전송하고 json으로 수신을 받는다
+b5.onclick = function() {
+   fetch("fetch", {
+       method: "POST",
+       body: '{"name":"hong", "age":10}',
+       headers: {
+           "Content-type": "application/json; charset=UTF-8;"
+       }
+   }).then(res => res.json()).then(json=> {
+      console.log("result", json.result);      
+      console.log("name", json.name);      
+   });
+}
+
+const jsonText = '{"name":"hong", "age":10}';
+const jsonObj = JSON.parse(jsonText);//문자열을 json 객체로 변환 
+const jsonText2 = JSON.stringify(jsonObj);//json 객체를 문자열로 변환 
+
+console.log("jsonText->", jsonText);
+console.log("jsonObj->", jsonObj);
+console.log("jsonText2->", jsonText2);
+
+
 </script>
 <script type="text/javascript">
 const time_button = document.getElementById("time_button");

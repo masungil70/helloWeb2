@@ -1,6 +1,10 @@
 package com.msa2024;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,6 +47,10 @@ public class FetchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String contentType = request.getContentType();
+		
+		System.out.println("contentType->" + contentType);
+		
 		//브라우저에서 전달한 값 얻기 
 		String type = request.getParameter("type");
 		String name = request.getParameter("name");
@@ -53,8 +61,32 @@ public class FetchServlet extends HttpServlet {
 		System.out.println("name = " + name);
 		System.out.println("age = " + age);
 		
-		//응답 데이터 텍스트로 전달 
-		response.getWriter().append("1");
+		if (contentType.startsWith("application/x-www-form-urlencoded")) {
+			if ("text".equals(type)) {
+				//응답 데이터 텍스트로 전달 
+				response.getWriter().append("1");
+			} else if("json".equals(type)) {
+				//응답을 json을 전달 
+				response.setContentType("application/json;charset=UTF-8");
+				response.getWriter().append("{\"result\":true, \"name\":\"홍길동\", \"age\" : 20}");
+			}
+		} else if (contentType.startsWith("application/json")) {
+			//json을 전달된 문자열 처리
+
+			//byte를 char로 변환해줌, 처리 속도를 빠르게 하기위해 버퍼링 한다  
+			//lines() 함수를 호출하면 모든 내용을 라인 단위로 읽어 배열(stream) 로 구성함
+			//하나의 긴 문자열로 변환하는 것
+			String jsonText = new BufferedReader(new InputStreamReader(request.getInputStream()))
+			.lines()
+			.collect(Collectors.joining());
+			//jsonText = {"name":"hong", "age":10};
+			
+			System.out.println("jsonText => " + jsonText);
+			
+			//응답을 json을 전달 
+			response.setContentType("application/json;charset=UTF-8");
+			response.getWriter().append("{\"result\":true, \"name\":\"홍길동\", \"age\" : 20}");
+		}
 	}
 
 }
