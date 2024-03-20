@@ -13,9 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.msa2024.step2.vo.UserVO;
 
 public class BoardController {
 	private static final long serialVersionUID = 1L;
@@ -109,8 +111,15 @@ public class BoardController {
 		System.out.println("등록");
 		Map<String, Object> map = new HashMap<>();
 		
-		//전처리 
+		//전처리로 세션정보를 얻는다
+		HttpSession session = request.getSession();
+		System.out.println("게시물등록시 sessionId = " + session.getId());
 		//로그인 사용자 설정 
+		UserVO loginVO = (UserVO) session.getAttribute("loginVO");
+		if (loginVO != null) {
+			//로그인한 사용자를 게시물 작성자로 설정한다 
+			board.setBwriter(loginVO.getUsername());
+		}
 		
 		//1. 처리
 		int updated = boardService.insert(board);

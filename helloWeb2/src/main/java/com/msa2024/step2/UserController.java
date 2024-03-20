@@ -164,6 +164,7 @@ public class UserController {
 		if (userVO.isEqualPassword(loginVO)) {
 			//로그인 사용자의 정보를 세션에 기록한다
 			HttpSession session = request.getSession();
+			System.out.println("login nsession id = " + session.getId());
 			session.setAttribute("loginVO", loginVO);
 			map.put("status", 0);
 		} else {
@@ -178,6 +179,7 @@ public class UserController {
 		
 		//로그인 사용자의 정보를 세션에 제거한다
 		HttpSession session = request.getSession();
+		System.out.println("logout session id = " + session.getId());
 		session.removeAttribute("loginVO"); //특정 이름을 제거한다
 		session.invalidate(); //세션에 저장된 모든 자료를 삭제한다 
 		map.put("status", 0);
