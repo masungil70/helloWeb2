@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>등록화면</title>
+    <title>로그인화면</title>
     <style>
         label {
             display: inline-block;
@@ -18,21 +18,15 @@
 </head>
 <body>
     <h1>
-        게시물 등록양식 
+        로그인 화면 
     </h1>
-	<h3>로그인 : ${loginVO.username} </h3>
-    
-    <form id="rForm" action="board.do" method="post">
-    	<input type="hidden" name="action" value="insert">
-        <label>제목 : </label><input type="text" id="btitle" name="btitle" required="required"><br/>
-        <label>내용 : </label><input type="text" id="bcontent" name="bcontent" required="required"><br/>
-        <!-- 
-        <label>작성자 : </label>
-         -->   
-        <input type="hidden" id="bwriter" name="bwriter" value="${loginVO.username}"><br/>
+    <form id="rForm" action="user.do" method="post" >
+    	<input type="hidden" name="action" value="login">
+        <label>아이디 : </label> <input type="text" id="userid" name="userid" required="required"><br/>
+        <label>비밀번호 : </label>   <input type="password" id="userpassword" name="userpassword" required="required"><br/>
     <div>
-        <input type="submit" value="등록">
-        <a href="board.do?action=list">취소</a>
+        <input type="submit" value="로그인" >
+        <a href="user.do?action=list">취소</a>
     </div>
     
     </form>
@@ -42,14 +36,15 @@
 <script type="text/javascript">
     
     const rForm = document.getElementById("rForm");
+    
     rForm.addEventListener("submit", e => {
     	//서버에 form data를 전송하지 않는다 
     	e.preventDefault();
     	
-		myFetch("board.do", "rForm", json => {
+		myFetch("user.do", "rForm", json => {
 			if(json.status == 0) {
 				//성공
-				alert("게시물을 등록 하였습니다");
+				alert("로그인 되었습니다");
 				location = "board.do?action=list";
 			} else {
 				alert(json.statusMessage);
@@ -57,7 +52,14 @@
 		});
     });
     
-</script>
-        
+    </script>
+    
 </body>
 </html>
+
+
+
+
+
+
+

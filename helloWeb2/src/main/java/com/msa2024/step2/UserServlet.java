@@ -90,6 +90,9 @@ public class UserServlet extends HttpServlet {
 		case "insertForm" -> userController.insertForm(request);
 		case "insert" -> userController.insert(request, userVO);
 		case "existUserId" -> userController.existUserId(request, userVO);
+		case "loginForm" -> userController.loginForm(request);
+		case "login" -> userController.login(request, userVO);
+		case "logout" -> userController.logout(request);
 		default -> "";
 		};
 		

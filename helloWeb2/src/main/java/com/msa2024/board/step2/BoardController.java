@@ -109,6 +109,9 @@ public class BoardController {
 		System.out.println("등록");
 		Map<String, Object> map = new HashMap<>();
 		
+		//전처리 
+		//로그인 사용자 설정 
+		
 		//1. 처리
 		int updated = boardService.insert(board);
 		

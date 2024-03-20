@@ -5,6 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript">
 //함수 선언 
 function add(a, b) {
@@ -61,8 +62,23 @@ function jsClick() {
 	document.getElementById('demo').innerHTML=Date();	
 }
 
+function jsLogout() {
+	
+	myFetch("user.do", {action : "logout"}, json => {
+		if(json.status == 0) {
+			//성공
+			alert("로그아웃되었습니다");
+			location = "board.do?action=list";
+		} else {
+			alert(json.statusMessage);
+		}
+	});
+			
+}
 </script>
 <ul>
+	<li><a href="user.do?action=loginForm">로그인양식</a></li>
+	<li><a href="javascript:jsLogout()">로그아웃</a></li>
 	<li><a href="user.do?action=list">list</a></li>
 	<li><a href="boards?action=list">게시물 목록</a></li>
 	<li><a href="board.do?action=list">새로운 버전 - 게시물 목록</a></li>

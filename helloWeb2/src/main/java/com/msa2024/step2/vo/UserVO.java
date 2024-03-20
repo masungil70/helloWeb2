@@ -34,4 +34,8 @@ public class UserVO {
 		return searchKey == null || searchKey.length() == 0; 
 	}
 	
+	public boolean isEqualPassword(UserVO userVO) {
+		return userVO != null && userpassword.equals(userVO.getUserpassword());
+	}
+	
 }

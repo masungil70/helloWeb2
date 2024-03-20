@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -149,6 +150,38 @@ public class UserController {
 		} else { //사용 불가능 아아디 
 			map.put("existUser", true);
 		}
+		return map;
+	}
+
+	public Object loginForm(HttpServletRequest request) {
+		return "loginForm";
+	}
+
+	public Object login(HttpServletRequest request, UserVO userVO) throws ServletException, IOException {
+		UserVO loginVO = userService.view(userVO);
+		Map<String, Object> map = new HashMap<>();
+		
+		if (userVO.isEqualPassword(loginVO)) {
+			//로그인 사용자의 정보를 세션에 기록한다
+			HttpSession session = request.getSession();
+			session.setAttribute("loginVO", loginVO);
+			map.put("status", 0);
+		} else {
+			map.put("status", -99);
+			map.put("statusMessage", "아이디 또는 비밀번호가 잘못되었습니다");
+		}
+		return map;
+	}
+
+	public Object logout(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<>();
+		
+		//로그인 사용자의 정보를 세션에 제거한다
+		HttpSession session = request.getSession();
+		session.removeAttribute("loginVO"); //특정 이름을 제거한다
+		session.invalidate(); //세션에 저장된 모든 자료를 삭제한다 
+		map.put("status", 0);
+		
 		return map;
 	}
 	
