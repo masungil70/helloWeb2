@@ -1,6 +1,7 @@
 package com.msa2024.step2;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,7 +81,7 @@ public class UserServlet extends HttpServlet {
 		System.out.println("userVO " + userVO);
 		
 		String action = userVO.getAction();
-		String result = switch(action) {
+		Object result = switch(action) {
 		case "list" -> userController.list(request, userVO);
 		case "view" -> userController.view(request, userVO);
 		case "delete" -> userController.delete(request, userVO);
@@ -92,18 +93,20 @@ public class UserServlet extends HttpServlet {
 		default -> "";
 		};
 		
-		if (result.startsWith("redirect:")) {
-			//리다이렉트 
-			response.sendRedirect(result.substring("redirect:".length()));
-		} else if (result.startsWith("{") || result.startsWith("[")) {
+		if (result instanceof Map map) {
 			//json 문자열을 리턴 
 			response.setContentType("application/json;charset=UTF-8");
-			response.getWriter().append(result);
-		} else {
-			//3. jsp 포워딩 
-			//포워딩 
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users2/"+result+".jsp");
-			rd.forward(request, response);
+			response.getWriter().append(objectMapper.writeValueAsString(map));
+		} else if (result instanceof String url) {
+			if (url.startsWith("redirect:")) {
+				//리다이렉트 
+				response.sendRedirect(url.substring("redirect:".length()));
+			} else {
+				//3. jsp 포워딩 
+				//포워딩 
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/users2/"+url+".jsp");
+				rd.forward(request, response);
+			}
 		}
 	}
 }

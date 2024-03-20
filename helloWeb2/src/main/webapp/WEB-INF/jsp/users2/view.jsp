@@ -28,6 +28,7 @@
       <label>나이: ${user.userage}</label><br/>
       <label>이메일: ${user.useremail}</label><br/>
 
+<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
 <script>
 function jsDelete() {
 	if (confirm("정말로 삭제하시겠습니까?")) {
@@ -38,6 +39,17 @@ function jsDelete() {
 		//서버의 URL로 전송한다 
 		viewForm.submit();
 		*/
+		action.value = "delete";
+		myFetch("user.do", "viewForm", json => {
+			if(json.status == 0) {
+				//성공
+				alert("회원정보를 삭제 하였습니다");
+				location = "user.do?action=list";
+			} else {
+				alert(json.statusMessage);
+			}
+		});
+/*		
 	    const userid = document.getElementById("userid");
     	//fetch를 사용하여 회원 가입을 함
     	//전송자료 구성 
@@ -61,7 +73,7 @@ function jsDelete() {
 				alert(json.statusMessage);
 			}
 		});
-		
+*/		
 	}
 }
 

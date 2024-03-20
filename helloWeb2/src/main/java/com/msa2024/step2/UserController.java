@@ -34,7 +34,7 @@ public class UserController {
         // TODO Auto-generated constructor stub
     }
 
-	public String list(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public Object list(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("목록");
 		
 		//1. 처리
@@ -46,7 +46,7 @@ public class UserController {
 		return "list";
 	}
 	
-	public String view(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public Object view(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("상세보기");
 		//String userid = request.getParameter("userid");
 		//1. 처리
@@ -56,7 +56,7 @@ public class UserController {
 		return "view";
 	}
 	
-	public String delete(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public Object delete(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("삭제");
 		//1. 처리
 		int updated = userService.delete(user);
@@ -73,11 +73,10 @@ public class UserController {
 			map.put("statusMessage", "회원 정보 삭제 실패하였습니다");
 		}
 		
-		ObjectMapper objectMapper = new ObjectMapper();
-		return objectMapper.writeValueAsString(map);
+		return map;
 	}
 	
-	public String updateForm(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public Object updateForm(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("수정화면");
 		//1. 처리
 		//usersDAO.read(user);
@@ -88,7 +87,7 @@ public class UserController {
 		return "updateForm"; 
 	}
 	
-	public String update(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public Object update(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("수정");
 		
 		//1. 처리
@@ -106,12 +105,10 @@ public class UserController {
 			map.put("statusMessage", "회원 정보 수정 실패하였습니다");
 		}
 		
-		ObjectMapper objectMapper = new ObjectMapper();
-		return objectMapper.writeValueAsString(map);
-		
+		return map;
 	}
 	
-	public String insertForm(HttpServletRequest request) throws ServletException, IOException {
+	public Object insertForm(HttpServletRequest request) throws ServletException, IOException {
 		System.out.println("등록화면");
 		//1. 처리
 		
@@ -119,7 +116,7 @@ public class UserController {
 		return "insertForm";
 	}
 	
-	public String insert(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+	public Object insert(HttpServletRequest request, UserVO user) throws ServletException, IOException {
 		System.out.println("등록");
 		Map<String, Object> map = new HashMap<>();
 		
@@ -137,12 +134,10 @@ public class UserController {
 				map.put("statusMessage", "회원 가입이 실패하였습니다");
 			}
 		}
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		return objectMapper.writeValueAsString(map);
+		return map;
 	}
 
-	public String existUserId(HttpServletRequest request, UserVO userVO) throws ServletException, IOException {
+	public Object existUserId(HttpServletRequest request, UserVO userVO) throws ServletException, IOException {
 		//1. 처리
 		System.out.println("existUserId userid->" + userVO.getUserid());
 		UserVO existUser = userService.view(userVO);
@@ -154,8 +149,7 @@ public class UserController {
 		} else { //사용 불가능 아아디 
 			map.put("existUser", true);
 		}
-		ObjectMapper objectMapper = new ObjectMapper();
-		return objectMapper.writeValueAsString(map);
+		return map;
 	}
 	
 }

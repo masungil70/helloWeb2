@@ -34,16 +34,22 @@
     </div>
     
     </form>
-    
+<!--     
+<script type="text/javascript" src="/helloWeb2/js/common.js"></script>
+ -->
+<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+
 <script type="text/javascript">
+	
 const rForm = document.getElementById("rForm");
+/*
 const userid = document.getElementById("userid");
 const userpassword = document.getElementById("userpassword");
 const userpassword2 = document.getElementById("userpassword2");
 const username = document.getElementById("username");
 const userage = document.getElementById("userage");
 const useremail = document.getElementById("useremail");
-
+*/
 rForm.addEventListener("submit", e => {
 	//서버에 form data를 전송하지 않는다 
 	e.preventDefault();
@@ -56,7 +62,8 @@ rForm.addEventListener("submit", e => {
 		return false;
 	}
 	//fetch를 사용하여 회원 정보 수정을 함
-	//전송자료 구성 
+	//전송자료 구성
+/*	
 	const param = {
 		 action : 'update'
 		,userid : userid.value
@@ -65,14 +72,25 @@ rForm.addEventListener("submit", e => {
         ,userage : userage.value
         ,useremail : useremail.value
 	} 
-	
+*/	
+/*
 	fetch("user.do", {
 		method:"POST",
-		body:JSON.stringify(param),
+		body : formToSerialize("rForm"),
 		headers : {"Content-type" : "application/json; charset=utf-8"}
 	}).then(res => res.json()).then(json => {
 		//서버로 부터 받은 결과를 사용해서 처리 루틴 구현  
 		console.log("json ", json );
+		if(json.status == 0) {
+			//성공
+			alert("회원 정보 수정을 성공 하였습니다");
+			location = "user.do?action=view&userid=" + userid.value;
+		} else {
+			alert(json.statusMessage);
+		}
+	});
+*/
+	myFetch("user.do", "rForm", json => {
 		if(json.status == 0) {
 			//성공
 			alert("회원 정보 수정을 성공 하였습니다");

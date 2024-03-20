@@ -37,7 +37,10 @@
     
     </form>
     
+<script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
+    
     <script type="text/javascript">
+    
     const rForm = document.getElementById("rForm");
     const userid = document.getElementById("userid");
     const userpassword = document.getElementById("userpassword");
@@ -65,7 +68,8 @@
     		return false;
     	}
     	//fetch를 사용하여 회원 가입을 함
-    	//전송자료 구성 
+    	//전송자료 구성
+    	/*
     	const param = {
 			 action : 'insert'
 			,userid : userid.value
@@ -74,14 +78,25 @@
 	        ,userage : userage.value
 	        ,useremail : useremail.value
     	} 
-    	
+    	*/
+    	/*
 		fetch("user.do", {
 			method:"POST",
-			body:JSON.stringify(param),
+			body : formToSerialize("rForm"),
 			headers : {"Content-type" : "application/json; charset=utf-8"}
 		}).then(res => res.json()).then(json => {
 			//서버로 부터 받은 결과를 사용해서 처리 루틴 구현  
 			console.log("json ", json );
+			if(json.status == 0) {
+				//성공
+				alert("회원가입을 성공 하였습니다");
+				location = "user.do?action=list";
+			} else {
+				alert(json.statusMessage);
+			}
+		});
+		*/
+		myFetch("user.do", "rForm", json => {
 			if(json.status == 0) {
 				//성공
 				alert("회원가입을 성공 하였습니다");
