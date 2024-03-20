@@ -61,10 +61,20 @@ public class UserController {
 		//1. 처리
 		int updated = userService.delete(user);
 		
-		//2. jsp출력할 값 설정
-		request.setAttribute("updated", updated);
+//		//2. jsp출력할 값 설정
+//		request.setAttribute("updated", updated);
+//		
+//		return "delete";
+		Map<String, Object> map = new HashMap<>();
+		if (updated == 1) { //성공
+			map.put("status", 0);
+		} else {
+			map.put("status", -99);
+			map.put("statusMessage", "회원 정보 삭제 실패하였습니다");
+		}
 		
-		return "delete";
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(map);
 	}
 	
 	public String updateForm(HttpServletRequest request, UserVO user) throws ServletException, IOException {
@@ -84,10 +94,21 @@ public class UserController {
 		//1. 처리
 		int updated = userService.update(user);
 		
-		//2. jsp출력할 값 설정
-		request.setAttribute("updated", updated);
+//		//2. jsp출력할 값 설정
+//		request.setAttribute("updated", updated);
+//		
+//		return "update";
+		Map<String, Object> map = new HashMap<>();
+		if (updated == 1) { //성공
+			map.put("status", 0);
+		} else {
+			map.put("status", -99);
+			map.put("statusMessage", "회원 정보 수정 실패하였습니다");
+		}
 		
-		return "update";
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(map);
+		
 	}
 	
 	public String insertForm(HttpServletRequest request) throws ServletException, IOException {

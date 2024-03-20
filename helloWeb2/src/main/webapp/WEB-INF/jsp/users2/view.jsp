@@ -31,11 +31,37 @@
 <script>
 function jsDelete() {
 	if (confirm("정말로 삭제하시겠습니까?")) {
+		/*
 		//서버의 URL을 설정한다 
 		action.value = "delete";
 	
 		//서버의 URL로 전송한다 
 		viewForm.submit();
+		*/
+	    const userid = document.getElementById("userid");
+    	//fetch를 사용하여 회원 가입을 함
+    	//전송자료 구성 
+    	const param = {
+			 action : 'delete'
+			,userid : userid.value
+    	} 
+	    	
+		fetch("user.do", {
+			method:"POST",
+			body:JSON.stringify(param),
+			headers : {"Content-type" : "application/json; charset=utf-8"}
+		}).then(res => res.json()).then(json => {
+			//서버로 부터 받은 결과를 사용해서 처리 루틴 구현  
+			console.log("json ", json );
+			if(json.status == 0) {
+				//성공
+				alert("회원정보를 삭제 하였습니다");
+				location = "user.do?action=list";
+			} else {
+				alert(json.statusMessage);
+			}
+		});
+		
 	}
 }
 
@@ -48,11 +74,12 @@ function jsUpdateForm() {
 		viewForm.submit();
 	}	
 }
+
 </script>
 <!-- 두개의 폼을 하나로 합치는 방법 , js를 사용하여 처리  -->
 	<form id="viewForm" method="post" action="user.do">
 		<input type="hidden" id="action" name="action" value="">
-		<input type="hidden" name="userid" value="${user.userid}">
+		<input type="hidden" id="userid" name="userid" value="${user.userid}">
 		<input type="button" value="삭제" onclick="jsDelete()">
 		<input type="button" value="수정" onclick="jsUpdateForm()">
 	</form>     
@@ -74,6 +101,9 @@ function jsUpdateForm() {
         <a href="user.do?action=updateForm&userid=${user.userid}">수정</a>
         <a href="user.do?action=delete&userid=${user.userid}">삭제</a>
     </div>
+    
+    <a href="javascript:jsDelete()">삭제</a>
+    
 </body>
 </html>
 
