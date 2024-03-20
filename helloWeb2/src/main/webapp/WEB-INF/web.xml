@@ -36,12 +36,12 @@
 
 	<servlet>
 		<servlet-name>boardsServlet</servlet-name>
-		<servlet-class>com.msa2024.board.BoardsServlet</servlet-class>
+		<servlet-class>com.msa2024.board.step2.BoardServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>boardsServlet</servlet-name>
-		<url-pattern>/boards</url-pattern>
+		<url-pattern>/board.do</url-pattern>
 	</servlet-mapping>	
 
 </web-app>
