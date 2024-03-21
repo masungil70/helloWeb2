@@ -187,6 +187,20 @@ public class UserController {
 		return map;
 	}
 	
+	public Object mypage(HttpServletRequest request, UserVO user) throws ServletException, IOException {
+		System.out.println("상세보기");
+		//String userid = request.getParameter("userid");
+		//1. 처리
+//		HttpSession session = request.getSession();
+//		UserVO loginVO = (UserVO) session.getAttribute("loginVO");
+//		if (loginVO == null) {
+//			return "redirect:user.do?action=loginForm";
+//		}
+//
+//		//2. jsp출력할 값 설정
+//		request.setAttribute("loginVO", loginVO);
+		return "mypage";
+	}
 }
 
 

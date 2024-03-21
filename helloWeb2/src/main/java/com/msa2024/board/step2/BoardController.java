@@ -101,7 +101,12 @@ public class BoardController {
 	
 	public Object insertForm(HttpServletRequest request) throws ServletException, IOException {
 		System.out.println("등록화면");
-		//1. 처리
+//		//1. 처리 아래 부분은 LoginFilter에 처리함 
+//		HttpSession session = request.getSession();
+//		UserVO loginVO = (UserVO) session.getAttribute("loginVO");
+//		if (loginVO == null) {
+//			return "redirect:user.do?action=loginForm";
+//		}
 		
 		//2. jsp출력할 값 설정
 		return "insertForm";
