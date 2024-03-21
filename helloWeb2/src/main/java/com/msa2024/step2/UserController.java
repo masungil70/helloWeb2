@@ -197,10 +197,15 @@ public class UserController {
 		
 		//로그인 사용자의 정보를 세션에 제거한다
 		HttpSession session = request.getSession();
+		//세션에서 로그인 정보를 얻는다
+		UserVO loginVO = (UserVO) session.getAttribute("loginVO");
+		//로그아웃시 uuid값을 제거한다 
+		loginVO.setUseruuid("");
+		userService.updateUUID(loginVO);
+		
 		System.out.println("logout session id = " + session.getId());
 		session.removeAttribute("loginVO"); //특정 이름을 제거한다
 		session.invalidate(); //세션에 저장된 모든 자료를 삭제한다 
-		map.put("status", 0);
 		
 		return map;
 	}
