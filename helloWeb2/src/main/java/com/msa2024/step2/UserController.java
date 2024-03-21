@@ -164,6 +164,7 @@ public class UserController {
 			//로그인 사용자의 정보를 세션에 기록한다
 			HttpSession session = request.getSession();
 			session.setAttribute("loginVO", loginVO);
+			session.setMaxInactiveInterval(30*60*1000);
 		} else {
 			//map.put("statusMessage", "아이디 또는 비밀번호가 잘못되었습니다");
 			return "redirect:user.do?action=loginForm&err=invalidUserId";

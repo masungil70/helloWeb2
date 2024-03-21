@@ -104,11 +104,18 @@ public class BoardDAO {
 
             ResultSet rs = boardDetailPstmt.executeQuery();
             if (rs.next()) {
-                board = new BoardVO(rs.getString("bno")
-                        , rs.getString("btitle")
-                        , rs.getString("bcontent")
-                        , rs.getString("bwriter")
-                        , rs.getString("bdate"));
+//                board = new BoardVO(rs.getString("bno")
+//                        , rs.getString("btitle")
+//                        , rs.getString("bcontent")
+//                        , rs.getString("bwriter")
+//                        , rs.getString("bdate"));
+            	board = BoardVO.builder()
+            			.btitle(rs.getString("btitle"))
+            			.bcontent(rs.getString("bcontent"))
+            			.bno(rs.getString("bno"))
+            			.bdate(rs.getString("bdate"))
+            			.bwriter(rs.getString("bwriter"))
+            			.build();
             }
             rs.close();
 
