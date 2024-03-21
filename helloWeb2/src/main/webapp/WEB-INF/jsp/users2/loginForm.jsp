@@ -29,6 +29,7 @@
     	<input type="hidden" name="action" value="login">
         <label>아이디 : </label> <input type="text" id="userid" name="userid" required="required" value="${parqa.userid}"><br/>
         <label>비밀번호 : </label>   <input type="password" id="userpassword" name="userpassword" required="required"><br/>
+        <label for="autologin">자동로그인</label> <input type="checkbox" id="autologin" name="autologin" value="Y">    
     <div>
         <input type="submit" value="로그인" >
         <a href="user.do?action=list">취소</a>

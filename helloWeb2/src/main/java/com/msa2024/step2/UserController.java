@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -157,7 +159,7 @@ public class UserController {
 		return "loginForm";
 	}
 
-	public String login(HttpServletRequest request, UserVO userVO) throws ServletException, IOException {
+	public String login(HttpServletRequest request, UserVO userVO, HttpServletResponse response) throws ServletException, IOException {
 		UserVO loginVO = userService.view(userVO);
 		
 		if (userVO.isEqualPassword(loginVO)) {
@@ -165,6 +167,24 @@ public class UserController {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginVO", loginVO);
 			session.setMaxInactiveInterval(30*60*1000);
+			
+			if (userVO.getAutologin().equals("Y")) {
+				//1. UUID를 생성하여 사용자 테이블의 uuid을 변경한다
+				String uuid = UUID.randomUUID().toString();
+				userVO.setUseruuid(uuid);
+				
+				userService.updateUUID(userVO);
+				
+				
+				//2. uuid값을 쿠키에 기록한다
+				Cookie uuidCookie = new Cookie("uuidCookie", uuid);
+				uuidCookie.setMaxAge(24 * 60 * 60); //24시간
+				uuidCookie.setPath("/");
+				
+				response.addCookie(uuidCookie);
+				
+			}
+			
 		} else {
 			//map.put("statusMessage", "아이디 또는 비밀번호가 잘못되었습니다");
 			return "redirect:user.do?action=loginForm&err=invalidUserId";

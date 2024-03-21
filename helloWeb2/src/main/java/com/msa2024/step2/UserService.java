@@ -58,6 +58,10 @@ public class UserService  {
 	public int insert(UserVO user) throws ServletException, IOException {
 		return usersDAO.insert(user);
 	}
+
+	public void updateUUID(UserVO userVO) {
+		usersDAO.updateUUID(userVO);
+	}
 	
 }
 
