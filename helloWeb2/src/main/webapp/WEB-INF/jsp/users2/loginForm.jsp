@@ -16,13 +16,18 @@
         }
     </style>
 </head>
+<c:if test="${not empty param.err}">
+<script>
+	alert("아이디 또는 비밀번호가 잘못되었습니다");
+</script>	
+</c:if>
 <body>
     <h1>
         로그인 화면 
     </h1>
     <form id="rForm" action="user.do" method="post" >
     	<input type="hidden" name="action" value="login">
-        <label>아이디 : </label> <input type="text" id="userid" name="userid" required="required"><br/>
+        <label>아이디 : </label> <input type="text" id="userid" name="userid" required="required" value="${parqa.userid}"><br/>
         <label>비밀번호 : </label>   <input type="password" id="userpassword" name="userpassword" required="required"><br/>
     <div>
         <input type="submit" value="로그인" >
@@ -34,10 +39,11 @@
 <script type="text/javascript" src="<c:url value='/js/common.js'/>"></script>
     
 <script type="text/javascript">
-    
+/*    
     const rForm = document.getElementById("rForm");
     
     rForm.addEventListener("submit", e => {
+	
     	//서버에 form data를 전송하지 않는다 
     	e.preventDefault();
     	
@@ -50,8 +56,9 @@
 				alert(json.statusMessage);
 			}
 		});
+		
     });
-    
+*/
     </script>
     
 </body>

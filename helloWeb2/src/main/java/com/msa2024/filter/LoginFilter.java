@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msa2024.step2.vo.UserVO;
 
 /**
@@ -47,9 +48,13 @@ public class LoginFilter extends HttpFilter implements Filter {
 		
 		if (request instanceof HttpServletRequest req) {
 			HttpServletResponse resp = (HttpServletResponse) response;
+			HttpSession session = req.getSession();
+			UserVO loginVO = (UserVO) session.getAttribute("loginVO");
+			String contentType = request.getContentType();
 			String url = req.getRequestURI();
 			String action = req.getParameter("action");
 			Set<String> actionSet = new HashSet<String>();
+			
 			actionSet.add("loginForm");
 			actionSet.add("login");
 			actionSet.add("insertForm");
@@ -57,14 +62,11 @@ public class LoginFilter extends HttpFilter implements Filter {
 
 			System.out.println("url = " + url);
 			if (!(url.equals("/helloWeb2/user.do") && actionSet.contains(action))) {
-			//if (!url.equals("/helloWeb2/user.do") || !actionSet.contains(action))) {
-				HttpSession session = req.getSession();
-				UserVO loginVO = (UserVO) session.getAttribute("loginVO");
 				if (loginVO == null) {
 					resp.sendRedirect(req.getContextPath() + "/user.do?action=loginForm");
 					return;
 				}
-			} 
+			}
 		}
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

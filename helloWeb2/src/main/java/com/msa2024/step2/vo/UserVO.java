@@ -15,6 +15,7 @@ public class UserVO {
 	private String useremail;
 	
 	private String userpassword2;
+	private String err;
 	//실행 명령 필드 
 	private String action;
 

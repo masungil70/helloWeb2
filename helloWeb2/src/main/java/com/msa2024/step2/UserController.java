@@ -157,21 +157,18 @@ public class UserController {
 		return "loginForm";
 	}
 
-	public Object login(HttpServletRequest request, UserVO userVO) throws ServletException, IOException {
+	public String login(HttpServletRequest request, UserVO userVO) throws ServletException, IOException {
 		UserVO loginVO = userService.view(userVO);
-		Map<String, Object> map = new HashMap<>();
 		
 		if (userVO.isEqualPassword(loginVO)) {
 			//로그인 사용자의 정보를 세션에 기록한다
 			HttpSession session = request.getSession();
-			System.out.println("login nsession id = " + session.getId());
 			session.setAttribute("loginVO", loginVO);
-			map.put("status", 0);
 		} else {
-			map.put("status", -99);
-			map.put("statusMessage", "아이디 또는 비밀번호가 잘못되었습니다");
+			//map.put("statusMessage", "아이디 또는 비밀번호가 잘못되었습니다");
+			return "redirect:user.do?action=loginForm&err=invalidUserId";
 		}
-		return map;
+		return "redirect:board.do?action=list";
 	}
 
 	public Object logout(HttpServletRequest request) {
